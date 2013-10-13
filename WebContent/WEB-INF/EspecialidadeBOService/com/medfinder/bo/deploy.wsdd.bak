@@ -1,0 +1,45 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from EspecialidadeBOService WSDL service -->
+
+  <service name="EspecialidadeBO" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://bo.medfinder.com"/>
+      <parameter name="wsdlServiceElement" value="EspecialidadeBOService"/>
+      <parameter name="schemaQualified" value="http://bo.medfinder.com,http://to.medfinder.com"/>
+      <parameter name="wsdlServicePort" value="EspecialidadeBO"/>
+      <parameter name="className" value="com.medfinder.bo.EspecialidadeBOSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="EspecialidadeBO"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="inserirEspecialidade" qname="operNS:inserirEspecialidade" xmlns:operNS="http://bo.medfinder.com" soapAction="" >
+        <parameter qname="pns:especialidade" xmlns:pns="http://bo.medfinder.com" type="tns:Especialidade" xmlns:tns="http://to.medfinder.com"/>
+      </operation>
+      <operation name="consultarEspecialidade" qname="operNS:consultarEspecialidade" xmlns:operNS="http://bo.medfinder.com" returnQName="retNS:consultarEspecialidadeReturn" xmlns:retNS="http://bo.medfinder.com" returnType="rtns:Especialidade" xmlns:rtns="http://to.medfinder.com" soapAction="" >
+        <parameter qname="pns:id" xmlns:pns="http://bo.medfinder.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="listarEspecialidades" qname="operNS:listarEspecialidades" xmlns:operNS="http://bo.medfinder.com" returnQName="retNS:listarEspecialidadesReturn" xmlns:retNS="http://bo.medfinder.com" returnType="rtns:Especialidade" xmlns:rtns="http://to.medfinder.com" soapAction="" >
+      </operation>
+      <operation name="deletarEspecialidade" qname="operNS:deletarEspecialidade" xmlns:operNS="http://bo.medfinder.com" soapAction="" >
+        <parameter qname="pns:id" xmlns:pns="http://bo.medfinder.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="listarEspecialidades consultarEspecialidade inserirEspecialidade deletarEspecialidade"/>
+
+      <typeMapping
+        xmlns:ns="http://to.medfinder.com"
+        qname="ns:Especialidade"
+        type="java:com.medfinder.to.Especialidade"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

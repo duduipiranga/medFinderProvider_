@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from OperadoraBOService WSDL service -->
+
+  <service name="OperadoraBO" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://bo.medfinder.com"/>
+      <parameter name="wsdlServiceElement" value="OperadoraBOService"/>
+      <parameter name="schemaQualified" value="http://bo.medfinder.com,http://to.medfinder.com"/>
+      <parameter name="wsdlServicePort" value="OperadoraBO"/>
+      <parameter name="className" value="com.medfinder.bo.OperadoraBO"/>
+      <parameter name="wsdlPortType" value="OperadoraBO"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://bo.medfinder.com" xmlns:retNS="http://bo.medfinder.com" xmlns:rtns="http://to.medfinder.com" name="consultarOperadora" qname="operNS:consultarOperadora" returnQName="retNS:consultarOperadoraReturn" returnType="rtns:Operadora" soapAction="">
+        <parameter xmlns:pns="http://bo.medfinder.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://bo.medfinder.com" name="deletarOperadora" qname="operNS:deletarOperadora" soapAction="">
+        <parameter xmlns:pns="http://bo.medfinder.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://bo.medfinder.com" xmlns:retNS="http://bo.medfinder.com" xmlns:rtns="http://to.medfinder.com" name="listarOperadoras" qname="operNS:listarOperadoras" returnQName="retNS:listarOperadorasReturn" returnType="rtns:Operadora" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://bo.medfinder.com" name="inserirOperadora" qname="operNS:inserirOperadora" soapAction="">
+        <parameter xmlns:pns="http://bo.medfinder.com" xmlns:tns="http://to.medfinder.com" qname="pns:operadora" type="tns:Operadora"/>
+      </operation>
+      <parameter name="allowedMethods" value="inserirOperadora deletarOperadora listarOperadoras consultarOperadora"/>
+
+      <typeMapping xmlns:ns="http://to.medfinder.com" qname="ns:Operadora" type="java:com.medfinder.to.Operadora" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>
